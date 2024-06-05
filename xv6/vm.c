@@ -345,7 +345,7 @@ copyuvm(pde_t *pgdir, uint sz)
   }
 
   //추가
-  unit t = KERN_TOP;
+  uint t = KERN_TOP;
   t = PGROUNDDOWN(t);
 
   for (i = t; i > t - 1 * PGSIZE; i -=PGSIZE) {
