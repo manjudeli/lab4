@@ -205,6 +205,7 @@ fork(void)
   np->sz = curproc->sz;
   np->parent = curproc;
   *np->tf = *curproc->tf;
+  np->setup_stack = curproc->setup_stack;   //추가
 
   // Clear %eax so that fork returns 0 in the child.
   np->tf->eax = 0;
