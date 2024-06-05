@@ -547,7 +547,7 @@ printpt(int pid)
     struct proc *p = 0;
     pde_t *pgdir;
     pte_t *pte;
-    unit va;
+    uint va;
     int found = 0;
 
     // 프로세스 테이블에서 해당 pid의 프로세스를 찾는다.
@@ -580,5 +580,5 @@ printpt(int pid)
       }
   }
   cprintf("END PAGE TABLE\n");
-  return 0; +}
+  return 0; 
 }
