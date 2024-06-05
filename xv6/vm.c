@@ -35,7 +35,7 @@ seginit(void)
 // Return the address of the PTE in page table pgdir
 // that corresponds to virtual address va.  If alloc!=0,
 // create any required page table pages.
-static pte_t *
+pte_t *  // static 제거
 walkpgdir(pde_t *pgdir, const void *va, int alloc)
 {
   pde_t *pde;
@@ -343,6 +343,27 @@ copyuvm(pde_t *pgdir, uint sz)
     if(mappages(d, (void*)i, PGSIZE, V2P(mem), flags) < 0)
       goto bad;
   }
+
+  //추가
+  unit t = KERN_TOP;
+  t = PGROUNDDOWN(t);
+
+  for (i = t; i > t - 1 * PGSIZE; i -=PGSIZE) {
+      if((pte = walkpgdir(pgdir, (void *) i, 0)) == 0)
+          panic("copyuvm: pte should exist");
+      if(!(*pte & PTE_P))
+          panic("copyuvm: page not present");
+      pa = PTE_ADDR(*pte);
+      flags = PTE_FLAGS(*pte);
+      if((mem = kalloc()) == 0)
+          goto bad;
+      memmove(mem, (char*)P2V(pa), PGSIZE);
+      if(mappages(d, (void*)i, PGSIZE, V2P(mem), flags) < 0) {
+        kfree(mem);
+        goto bad;
+      }
+  }
+  
   return d;
 
 bad:
