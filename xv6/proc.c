@@ -576,7 +576,7 @@ printpt(int pid)
                   (va),
                   (*pte & PTE_U) ? "U" : "K",
                   (*pte & PTE_W) ? "W" : "-",
-                  PTE_ADDR(*pte);
+                  PTE_ADDR(*pte));
       }
   }
   cprintf("END PAGE TABLE\n");
