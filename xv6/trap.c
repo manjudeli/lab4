@@ -80,7 +80,7 @@ trap(struct trapframe *tf)
     cprintf("cpu%d: spurious interrupt at %x:%x\n",
             cpuid(), tf->cs, tf->eip);
     lapiceoi();
-    break
+    break;
   case T_PGFLT;
     uint f = rcr2();
     if (f > KERN_TOP) {
