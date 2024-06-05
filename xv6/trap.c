@@ -89,13 +89,11 @@ trap(struct trapframe *tf)
     }
     f = PGROUNDDOWN(f);
     if (allocuvm(myproc()->pgdir, f, f + PGSIZE) == 0) {
-      cprintf("case T_PGFLT from trap.c: allocuvm failed. Number of current allocated
-pages: %d\n", myproc()->setup_stack);
+      cprintf("case T_PGFLT from trap.c: allocuvm failed. Number of current allocated pages: %d\n", myproc()->setup_stack);
       exit();
     }
     myproc()->setup_stack++;
-    cprintf("case T_PGFLT from trap.c: allocuvm succeeded. Number of pages allocated:
-  %d\n", myproc()->setup_stack);
+    cprintf("case T_PGFLT from trap.c: allocuvm succeeded. Number of pages allocated: %d\n", myproc()->setup_stack);
       break;
       
   //PAGEBREAK: 13
