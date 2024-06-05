@@ -169,6 +169,15 @@ mkfs: mkfs.c fs.h
 # http://www.gnu.org/software/make/manual/html_node/Chained-Rules.html
 .PRECIOUS: %.o
 
+_recurse: recurse.o $(ULIB)
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o _recurse recurse.o $(ULIB)
+	$(OBJDUMP) -S _recurse > recurse.asm
+	$(OBJDUMP) -t _recurse | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > recurse.sym
+
+recurse.o: recurse.c
+	$(CC) $(CFLAGS) -c recurse.c -o recurse.o
+
+
 UPROGS=\
 	_cat\
 	_echo\
