@@ -573,10 +573,10 @@ printpt(int pid)
       pte = walkpgdir(pgdir, (void *) va, 0);
       if (pte && (*pte & PTE_P)) {
           cprintf("%x P %s %s %x\n",
-                  (va >> 12),
+                  (va),
                   (*pte & PTE_U) ? "U" : "K",
                   (*pte & PTE_W) ? "W" : "-",
-                  PTE_ADDR(*pte) >> PTXSHIFT);
+                  PTE_ADDR(*pte);
       }
   }
   cprintf("END PAGE TABLE\n");
