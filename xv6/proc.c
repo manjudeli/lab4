@@ -539,3 +539,46 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+pte_t *walkpgdir(pde_t *pgdir, const void *va, int alloc); 
+int
+printpt(int pid)
+{
+    struct proc *p = 0;
+    pde_t *pgdir;
+    pte_t *pte;
+    unit va;
+    int found = 0;
+
+    // 프로세스 테이블에서 해당 pid의 프로세스를 찾는다.
+    acquire(&ptable.lock);
+    for (p = ptable.proc; p < &ptable.proc[NPROC];p++){
+      if (p->pid == pid) {
+        found = 1;
+        break;
+      }
+    }
+    release(&ptable.lock);
+  
+    // 해당 프로세스가 존재하지 않거나, UNUSED 상태일 경우 -1 반환 
+  if (!found || p->state == UNUSED) {
+          cprintf("Process with pid %d not found or is in UNUSED state\n", pid);
+          return -1;
+  } 
+
+  pgdir = p->pgdir;
+
+  cprintf("START PAGE TABLE (pid %d)\n", pid);
+  for (va = 0; va < KERNBASE; va += PGSIZE) {
+      pte = walkpgdir(pgdir, (void *) va, 0);
+      if (pte && (*pte & PTE_P)) {
+          cprintf("%x P %s %s %x\n",
+                  (va >> 12),
+                  (*pte & PTE_U) ? "U" : "K",
+                  (*pte & PTE_W) ? "W" : "-",
+                  PTE_ADDR(*pte) >> PTXSHIFT);
+      }
+  }
+  cprintf("END PAGE TABLE\n");
+  return 0; +}
+}
