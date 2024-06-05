@@ -186,15 +186,8 @@ UPROGS=\
 	_usertests\
 	_wc\
 	_zombie\
-	_recurse\   
+	_recurse
 
-_recurse: recurse.o $(ULIB)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o _recurse recurse.o $(ULIB)
-	$(OBJDUMP) -S _recurse > recurse.asm
-	$(OBJDUMP) -t _recurse | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > recurse.sym
-
-recurse.o: recurse.c
-	$(CC) $(CFLAGS) -c recurse.c -o recurse.o
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
