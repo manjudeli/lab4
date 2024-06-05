@@ -95,7 +95,7 @@ pages: %d\n", myproc()->setup_stack);
       exit();
     }
     myproc()->setup_stack++;
-    sprintf("case T_PGFLT from trap.c: allocuvm succeeded. Number of pages allocated:
+    cprintf("case T_PGFLT from trap.c: allocuvm succeeded. Number of pages allocated:
   %d\n", myproc()->setup_stack);
       break;
       
