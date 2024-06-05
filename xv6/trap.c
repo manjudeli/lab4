@@ -81,7 +81,7 @@ trap(struct trapframe *tf)
             cpuid(), tf->cs, tf->eip);
     lapiceoi();
     break
-  case T_PGFLT:
+  case T_PGFLT;
     uint f = rcr2();
     if (f > KERN_TOP) {
       cprintf("from trap access > KERNELBASE");
