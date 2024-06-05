@@ -17,10 +17,10 @@
 int
 fetchint(uint addr, int *ip)
 {
-  // struct proc *curproc = myproc();
+//  struct proc *curproc = myproc();
 
-  // if(addr >= curproc->sz || addr+4 > curproc->sz)
-  if(addr >= KERN_TOP || addr+4 > KERN_TOP)    // 추가
+//  if(addr >= curproc->sz || addr+4 > curproc->sz)
+  if(addr >= KERN_TOP || addr+4 > KERN_TOP)
     return -1;
   *ip = *(int*)(addr);
   return 0;
@@ -33,14 +33,14 @@ int
 fetchstr(uint addr, char **pp)
 {
   char *s, *ep;
-  // struct proc *curproc = myproc();  주석
+//  struct proc *curproc = myproc();
 
-  // if(addr >= curproc->sz)  주석
-  if(addr >= KERN_TOP); // 추가
+//  if(addr >= curproc->sz)
+  if(addr >= KERN_TOP)
     return -1;
   *pp = (char*)addr;
-  // ep = (char*)curproc->sz;  주석
-  ep = (char*)(KERN_TOP); // 추가
+//  ep = (char*)curproc->sz;
+  ep = (char*)(KERN_TOP);
   for(s = *pp; s < ep; s++){
     if(*s == 0)
       return s - *pp;
@@ -62,12 +62,11 @@ int
 argptr(int n, char **pp, int size)
 {
   int i;
-  // struct proc *curproc = myproc();  주석
+//  struct proc *curproc = myproc();
  
   if(argint(n, &i) < 0)
     return -1;
-  // if(size < 0 || (uint)i >= curproc->sz || (uint)i+size > curproc->sz)   주석
-  if(size < 0 || (unit)i >= KERN_TOP || (unit)i+size > KERN_TOP))  //추가
+  if(size < 0 || (uint)i >= (KERN_TOP) || (uint)i+size > (KERN_TOP))
     return -1;
   *pp = (char*)i;
   return 0;
